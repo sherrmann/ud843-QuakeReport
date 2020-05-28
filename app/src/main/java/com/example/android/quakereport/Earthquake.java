@@ -3,17 +3,17 @@ package com.example.android.quakereport;
 import java.util.Date;
 
 public class Earthquake {
-    private float magnitude;
+    private double magnitude;
     private String location;
-    private Date date;
+    private String date;
 
-    public Earthquake(float magnitude, String location, Date date) {
+    public Earthquake(double magnitude, String location, String date) {
         this.magnitude = magnitude;
         this.location = location;
         this.date = date;
     }
 
-    public float getMagnitude() {
+    public double getMagnitude() {
         return magnitude;
     }
 
@@ -21,11 +21,11 @@ public class Earthquake {
         return location;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setMagnitude(float magnitude) {
+    public void setMagnitude(double magnitude) {
         this.magnitude = magnitude;
     }
 
@@ -33,7 +33,7 @@ public class Earthquake {
         this.location = location;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }
