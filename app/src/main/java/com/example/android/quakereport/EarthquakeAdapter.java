@@ -1,71 +1,81 @@
+/*
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.example.android.quakereport;
 
-import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * An {@link EarthquakeAdapter} knows how to create a list item layout for each earthquake
+ * in the data source (a list of {@link Earthquake} objects).
+ *
+ * These list item layouts will be provided to an adapter view like ListView
+ * to be displayed to the user.
+ */
 public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
 
-    public EarthquakeAdapter(Activity context, ArrayList<Earthquake> earthquakes) {
-        /**
-         * Constructor to inflates the layout file using data we want to populate into the lists.
-         *
-         * @param context The current context. Used to inflate the layout file.
-         * @param earthquakes A list of Earthquakes
-         */
-
+    /**
+     * Constructs a new {@link EarthquakeAdapter}.
+     *
+     * @param context of the app
+     * @param earthquakes is the list of earthquakes, which is the data source of the adapter
+     */
+    public EarthquakeAdapter(Context context, List<Earthquake> earthquakes) {
         super(context, 0, earthquakes);
     }
 
     /**
-     * Provides a view for an AdapterView (ListView, GridView, etc.)
-     *
-     * @param position The position in the list of data that should be displayed in the
-     *                 list item view.
-     * @param convertView The recycled view to populate.
-     * @param parent The parent ViewGroup that is used for inflation.
-     * @return The View for the position in the AdapterView.
+     * Returns a list item view that displays information about the earthquake at the given position
+     * in the list of earthquakes.
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // Check if the existing view is being reused, otherwise inflate the view
+        // Check if there is an existing list item view (called convertView) that we can reuse,
+        // otherwise, if convertView is null, then inflate a new list item layout.
         View listItemView = convertView;
-        if(listItemView == null) {
+        if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.list_item, parent, false);
+                    R.layout.earthquake_list_item, parent, false);
         }
 
-        // Get the {@link AndroidFlavor} object located at this position in the list
+        // Find the earthquake at the given position in the list of earthquakes
         Earthquake currentEarthquake = getItem(position);
 
-        // Find the TextView in the list_item.xml layout with the ID version_name
-        TextView magnitudeTextView = (TextView) listItemView.findViewById(R.id.magnitude);
-        // Get the version name from the current AndroidFlavor object and
-        // set this text on the name TextView
-        magnitudeTextView.setText("" + currentEarthquake.getMagnitude());
+        // Find the TextView with view ID magnitude
+        TextView magnitudeView = (TextView) listItemView.findViewById(R.id.magnitude);
+        // Display the magnitude of the current earthquake in that TextView
+        magnitudeView.setText(currentEarthquake.getMagnitude());
 
-        // Find the TextView in the list_item.xml layout with the ID version_number
-        TextView locationTextView = (TextView) listItemView.findViewById(R.id.location);
-        // Get the version number from the current AndroidFlavor object and
-        // set this text on the number TextView
-        locationTextView.setText(currentEarthquake.getLocation());
+        // Find the TextView with view ID location
+        TextView locationView = (TextView) listItemView.findViewById(R.id.location);
+        // Display the location of the current earthquake in that TextView
+        locationView.setText(currentEarthquake.getLocation());
 
-        // Find the TextView in the list_item.xml layout with the ID version_number
-        TextView dateTextView = (TextView) listItemView.findViewById(R.id.date);
-        // Get the version number from the current AndroidFlavor object and
-        // set this text on the number TextView
-        dateTextView.setText((CharSequence) currentEarthquake.getDate());
+        // Find the TextView with view ID date
+        TextView dateView = (TextView) listItemView.findViewById(R.id.date);
+        // Display the date of the current earthquake in that TextView
+        dateView.setText(currentEarthquake.getDate());
 
-
-        // Return the whole list item layout (containing 2 TextViews and an ImageView)
-        // so that it can be shown in the ListView
+        // Return the list item view that is now showing the appropriate data
         return listItemView;
     }
-
 }
