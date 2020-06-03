@@ -44,8 +44,6 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
     private TextView mEmptyStateTextView;
 
-    private ProgressBar progressBar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +51,6 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
-
-        progressBar = (ProgressBar) findViewById(R.id.indeterminateBar);
 
         // Create a new adapter that takes an empty list of earthquakes as input
         mAdapter = new EarthquakeAdapter(this, new ArrayList<Earthquake>());
@@ -100,7 +96,8 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     @Override
     public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> data) {
 
-        progressBar.setVisibility(View.GONE);
+        View loadingIndicator = findViewById(R.id.loading_indicator);
+        loadingIndicator.setVisibility(View.GONE);
 
         mEmptyStateTextView.setText(R.string.no_earthquakes);
 
