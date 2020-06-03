@@ -55,8 +55,6 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
         // so the list can be populated in the user interface
         earthquakeListView.setAdapter(mAdapter);
 
-        getLoaderManager().initLoader(1, null, this).forceLoad();
-
 
         // Set an item click listener on the ListView, which sends an intent to a web browser
         // to open a website with more information about the selected earthquake.
@@ -77,15 +75,15 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
             }
         });
 
-        // Start the AsyncTask to fetch the earthquake data
-        //EarthquakeAsyncTask task = new EarthquakeAsyncTask();
-        //task.execute(USGS_REQUEST_URL);
+        LoaderManager loaderManager = getLoaderManager();
+
+        loaderManager.initLoader(1, null, this);
 
             }
 
     @Override
     public Loader<List<Earthquake>> onCreateLoader(int id, Bundle args) {
-        return new EarthquakeLoader(EarthquakeActivity.this);
+        return new EarthquakeLoader(this, USGS_REQUEST_URL);
     }
 
     @Override

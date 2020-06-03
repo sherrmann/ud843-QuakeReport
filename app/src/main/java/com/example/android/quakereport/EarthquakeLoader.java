@@ -11,19 +11,26 @@ public class EarthquakeLoader extends AsyncTaskLoader<List<Earthquake>> {
     private static final String USGS_REQUEST_URL =
             "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&minmag=5&limit=20";
 
+    /** Query URL */
+    private String mUrl;
 
-    public EarthquakeLoader(Context context){
+    public EarthquakeLoader(Context context, String url){
         super(context);
+        mUrl = url;
+    }
+
+    @Override
+    protected void onStartLoading() {
+        forceLoad();
     }
 
     @Override
     public List<Earthquake> loadInBackground() {
-        String[] urls = {USGS_REQUEST_URL};
-        if (urls.length < 1 || urls[0] == null) {
+        if (mUrl == null) {
             return null;
         }
 
-        List<Earthquake> result = QueryUtils.fetchEarthquakeData(urls[0]);
+        List<Earthquake> result = QueryUtils.fetchEarthquakeData(mUrl);
         return result;
     }
 
